@@ -8,6 +8,7 @@ export default StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     borderRadius: 50,
+    marginBottom: 10,
   },
   lineContainer: {
     height: '90%',

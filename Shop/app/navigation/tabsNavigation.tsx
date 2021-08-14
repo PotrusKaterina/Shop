@@ -5,6 +5,7 @@ import {colors, Images} from '../themes';
 import {MAIN, MANAGE_ITEMS} from '../config/routes';
 import MainScreen from '../views/main';
 import ManageItems from '../views/manageItems';
+import StackNavigation from './stackNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,8 +35,8 @@ const TabNavigation = () => (
       headerShown: false,
     }}>
     <Tab.Screen
-      name={MAIN}
-      component={MainScreen}
+      name={'StackNavigation'}
+      component={StackNavigation}
       options={{
         headerShown: false,
         tabBarShowLabel: false,

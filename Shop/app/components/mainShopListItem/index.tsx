@@ -1,14 +1,13 @@
+import {format} from 'date-fns';
 import React from 'react';
-import {View, Image, Text} from 'react-native';
-import Shopping from '../../../images/icons/shopping';
-import {colors} from '../../themes';
+import {View, Text} from 'react-native';
 import ImageInListItem from '../imageInListItem';
 import styles from './styles';
 
 interface Props {
   title: string;
   description: string;
-  date: string;
+  date: number | Date;
   image?: string;
 }
 
@@ -22,9 +21,11 @@ const MainShopListItem = ({title, description, date, image}: Props) => {
         <View style={styles.mainContainer}>
           <ImageInListItem {...{image}} />
           <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}>{description}</Text>
+            <Text numberOfLines={3} style={styles.descriptionText}>
+              {description}
+            </Text>
             <Text numberOfLines={1} style={styles.descriptionText}>
-              {date}
+              {date && format(date, 'dd.MM.yy HH:mm')}
             </Text>
           </View>
         </View>
