@@ -8,7 +8,6 @@ const Stack = createStackNavigator<any>();
 const StackNavigation = () => {
   return (
     <>
-    
       <Stack.Screen name={ARCHIVED} component={ArchivedScreen} />
     </>
   );

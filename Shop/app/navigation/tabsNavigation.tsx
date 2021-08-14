@@ -35,8 +35,8 @@ const TabNavigation = () => (
       headerShown: false,
     }}>
     <Tab.Screen
-      name={'StackNavigation'}
-      component={StackNavigation}
+      name={MAIN}
+      component={MainScreen}
       options={{
         headerShown: false,
         tabBarShowLabel: false,
