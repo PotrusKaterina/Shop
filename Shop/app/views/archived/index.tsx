@@ -1,12 +1,9 @@
 import React from 'react';
-import {View, FlatList, Text, TouchableOpacity} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
-import Happy from '../../../images/frog/happy';
-import Archived from '../../../images/icons/archived';
-import ListEmptyComponent from '../../components/listEmptyComponent';
+import ListArchivedEmptyComponent from '../../components/listArchivedEmptyComponent';
 import MainShopListItem from '../../components/mainShopListItem';
 import {getArchivedList} from '../../store/selectors/appSelectors';
-import {colors} from '../../themes';
 import styles from './styles';
 
 const ArchivedScreen = () => {
@@ -14,13 +11,12 @@ const ArchivedScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.listContainer}> */}
       <FlatList
-        ListEmptyComponent={<ListEmptyComponent />}
+        keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={<ListArchivedEmptyComponent />}
         data={shopList}
         renderItem={({item}) => <MainShopListItem {...{...item}} />}
       />
-      {/* </View> */}
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import {format} from 'date-fns';
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import ImageInListItem from '../imageInListItem';
 import styles from './styles';
 
@@ -9,11 +9,30 @@ interface Props {
   description: string;
   date: number | Date;
   image?: string;
+  onPress?: Function;
+  index?: number;
 }
 
-const MainShopListItem = ({title, description, date, image}: Props) => {
+const MainShopListItem = ({
+  title,
+  description,
+  date,
+  image,
+  onPress = null,
+  index,
+}: Props) => {
+  const onPressItem = (item, index) => {
+    console.log('onPressItem', index, item);
+    onPress(item, index);
+  };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={
+        onPress
+          ? () => onPressItem({title, description, image, date}, index)
+          : null
+      }
+      style={styles.container}>
       <View style={styles.lineContainer}>
         <Text numberOfLines={1} style={styles.title}>
           {title}
@@ -30,7 +49,7 @@ const MainShopListItem = ({title, description, date, image}: Props) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

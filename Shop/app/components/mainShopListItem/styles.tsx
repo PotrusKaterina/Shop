@@ -9,6 +9,8 @@ export default StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 50,
     marginBottom: 10,
+    borderColor: colors.green,
+    borderWidth: 2,
   },
   lineContainer: {
     height: '90%',

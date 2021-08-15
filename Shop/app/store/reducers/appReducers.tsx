@@ -19,10 +19,11 @@ export const appReducers = (state = INITIAL_STATE, action) => {
       };
     }
     case 'ADD_ARCHIVED_ITEM': {
+      state.shopList.splice(payload.index, 1);
       return {
         ...state,
-        archivedList: [...state.archivedList, payload],
-        shopList: state.shopList.splice(payload.index, 1),
+        archivedList: [...state.archivedList, payload.item],
+        shopList: [...state.shopList],
       };
     }
     case 'SET_ARCHIVED_LIST': {

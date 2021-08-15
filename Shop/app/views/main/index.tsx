@@ -1,19 +1,26 @@
 import React from 'react';
 import {View, FlatList, Text, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Happy from '../../../images/frog/happy';
 import Archived from '../../../images/icons/archived';
 import ListEmptyComponent from '../../components/listEmptyComponent';
 import MainShopListItem from '../../components/mainShopListItem';
+import {addArchivedItem} from '../../store/actions/appActions';
 import {getList} from '../../store/selectors/appSelectors';
 import {colors} from '../../themes';
 import styles from './styles';
 
 const MainScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const shopList = useSelector(getList);
 
   const onPressArchived = () => {
-    navigation.navigate('ArchivedScreen')
+    navigation.navigate('ArchivedScreen');
+  };
+
+  const onPressListItem = (item, index) => {
+    console.log('item', item, index);
+    dispatch(addArchivedItem({index, item}));
   };
 
   return (
@@ -25,16 +32,21 @@ const MainScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.raundView}>
-        <TouchableOpacity onPress={onPressArchived} style={styles.archivedButton}>
+        <TouchableOpacity
+          onPress={onPressArchived}
+          style={styles.archivedButton}>
           <Archived height="45%" width="30%" color={colors.white} />
           <Text style={styles.archivedButtonText}>Archived</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.listContainer}>
         <FlatList
+          keyExtractor={(item, index) => index.toString()}
           ListEmptyComponent={<ListEmptyComponent />}
           data={shopList}
-          renderItem={({item}) => <MainShopListItem {...{...item}} />}
+          renderItem={({item, index}) => (
+            <MainShopListItem {...{...item, index}} onPress={onPressListItem} />
+          )}
         />
       </View>
     </View>
