@@ -5,10 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-  },
-  optionButtonsContainer: {
-    height: 50,
-    width: '100%',
-    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });

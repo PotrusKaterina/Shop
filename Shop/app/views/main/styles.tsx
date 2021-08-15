@@ -14,18 +14,9 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: colors.green,
     width: '100%',
+    flexDirection: 'row',
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
-  },
-  archivedButton: {
-    height: '100%',
-    width: '100%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  archivedButtonText: {
-    color: colors.white,
-    right: 28,
   },
   listContainer: {
     flex: 1,

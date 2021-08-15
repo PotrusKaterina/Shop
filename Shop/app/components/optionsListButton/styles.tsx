@@ -4,11 +4,11 @@ import {colors} from '../../themes';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
-  optionButtonsContainer: {
-    height: 50,
-    width: '100%',
-    flexDirection: 'row',
+  title: {
+    color: colors.white,
   },
 });

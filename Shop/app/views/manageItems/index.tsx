@@ -1,19 +1,45 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useCallback, useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {SHOPPING_LIST} from '../../config/asyncKeys';
 import {addItem} from '../../store/actions/appActions';
+import {getList} from '../../store/selectors/appSelectors';
 import styles from './styles';
 
 const ManageItems = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
+  const shopList = useSelector(getList);
 
-  const creatListItem = useCallback(() => {
-    if (title.length !== 0 && description.length !== 0) {
-      dispatch(addItem({title, description, date: new Date()}));
+  const creatListItem = useCallback(async () => {
+    if (
+      !!title.replace(/\s/g, '').length &&
+      !!description.replace(/\s/g, '').length
+    ) {
+      dispatch(
+        addItem({
+          title: title.trim(),
+          description: description.trim(),
+          date: new Date(),
+        }),
+      );
       setTitle('');
       setDescription('');
+      await AsyncStorage.setItem(
+        SHOPPING_LIST,
+        JSON.stringify([
+          ...shopList,
+          {
+            title: title.trim(),
+            description: description.trim(),
+            date: new Date(),
+          },
+        ]),
+      );
+    } else {
+      alert('Both of fields should be filled');
     }
   }, [title, description]);
 

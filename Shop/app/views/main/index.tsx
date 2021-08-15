@@ -1,26 +1,37 @@
-import React from 'react';
-import {View, FlatList, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {View, FlatList, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Happy from '../../../images/frog/happy';
-import Archived from '../../../images/icons/archived';
 import ListEmptyComponent from '../../components/listEmptyComponent';
 import MainShopListItem from '../../components/mainShopListItem';
 import {addArchivedItem} from '../../store/actions/appActions';
-import {getList} from '../../store/selectors/appSelectors';
-import {colors} from '../../themes';
+import {getArchivedList, getList} from '../../store/selectors/appSelectors';
+import {colors, Images} from '../../themes';
 import styles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ARCHIVED_LIST, SHOPPING_LIST} from '../../config/asyncKeys';
+import OptionsListButton from '../../components/optionsListButton';
+import {sortingByNewerData, sortingByOlderData} from '../../services/sorting';
 
 const MainScreen = ({navigation}) => {
+  const [isByNewerData, setIsByNewerData] = useState(true);
   const dispatch = useDispatch();
   const shopList = useSelector(getList);
+  const archivedList = useSelector(getArchivedList);
 
-  const onPressArchived = () => {
+  const onPressArchived = async () => {
     navigation.navigate('ArchivedScreen');
   };
 
-  const onPressListItem = (item, index) => {
-    console.log('item', item, index);
+  const onPressListItem = async (item, index) => {
     dispatch(addArchivedItem({index, item}));
+    await AsyncStorage.setItem(
+      ARCHIVED_LIST,
+      JSON.stringify([...archivedList, item]),
+    );
+    let newShopList = shopList;
+    newShopList.splice(index, 1);
+    await AsyncStorage.setItem(SHOPPING_LIST, JSON.stringify(newShopList));
   };
 
   return (
@@ -32,18 +43,26 @@ const MainScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.raundView}>
-        <TouchableOpacity
+        <OptionsListButton
+          onPress={() => setIsByNewerData(!isByNewerData)}
+          title={'Sort'}
+          icon={<Images.List height="50%" width="30%" color={colors.white} />}
+        />
+        <OptionsListButton
           onPress={onPressArchived}
-          style={styles.archivedButton}>
-          <Archived height="45%" width="30%" color={colors.white} />
-          <Text style={styles.archivedButtonText}>Archived</Text>
-        </TouchableOpacity>
+          title={'Archived'}
+          icon={
+            <Images.Archived height="50%" width="30%" color={colors.white} />
+          }
+        />
       </View>
       <View style={styles.listContainer}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           ListEmptyComponent={<ListEmptyComponent />}
-          data={shopList}
+          data={shopList.sort(
+            isByNewerData ? sortingByNewerData : sortingByOlderData,
+          )}
           renderItem={({item, index}) => (
             <MainShopListItem {...{...item, index}} onPress={onPressListItem} />
           )}

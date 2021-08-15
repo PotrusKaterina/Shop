@@ -22,7 +22,6 @@ const MainShopListItem = ({
   index,
 }: Props) => {
   const onPressItem = (item, index) => {
-    console.log('onPressItem', index, item);
     onPress(item, index);
   };
   return (
@@ -44,7 +43,7 @@ const MainShopListItem = ({
               {description}
             </Text>
             <Text numberOfLines={1} style={styles.descriptionText}>
-              {date && format(date, 'dd.MM.yy HH:mm')}
+              {date && format(new Date(date), 'dd.MM.yy HH:mm')}
             </Text>
           </View>
         </View>
