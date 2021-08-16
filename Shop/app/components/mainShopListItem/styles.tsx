@@ -43,4 +43,7 @@ export default StyleSheet.create({
     width: '80%',
     paddingLeft: 10,
   },
+  buttonText: {
+    color: colors.blue
+  },
 });
